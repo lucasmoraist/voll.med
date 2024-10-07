@@ -10,19 +10,19 @@ import med.voll.api.medico.domain.enums.Especialidade;
 
 public record DadosCadastroMedico(
 
-        @NotBlank
+        @NotBlank(message = "O nome é obrigatório")
         String nome,
 
-        @NotBlank @Email
+        @NotBlank(message = "O email é obrigatório") @Email(message = "O email é inválido")
         String email,
 
-        @NotBlank
+        @NotBlank(message = "O telefone é obrigatório")
         String telefone,
 
-        @NotBlank @Pattern(regexp = "\\d{4,6}")
+        @NotBlank(message = "O CRM é obrigatório") @Pattern(regexp = "\\d{4,6}", message = "O CRM é inválido")
         String crm,
 
-        @NotNull
+        @NotNull(message = "A especialidade é obrigatória")
         Especialidade especialidade,
 
         @NotNull @Valid
