@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import med.voll.api.exceptions.ValidacaoException;
 import med.voll.api.user.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class TokenService {
                     .withExpiresAt(this.dataExpiracao())
                     .sign(algorithm);
         } catch (JWTCreationException e) {
-            throw new RuntimeException("Erro ao gerar token JWT: ", e);
+            throw new ValidacaoException("Erro ao gerar token JWT: ");
         }
     }
 
@@ -41,7 +42,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException ex) {
-            throw new RuntimeException("Token inválido ou expirado!");
+            throw new ValidacaoException("Token inválido ou expirado!");
         }
     }
 
