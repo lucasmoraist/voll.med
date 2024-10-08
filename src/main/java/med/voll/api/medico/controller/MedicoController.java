@@ -1,5 +1,6 @@
 package med.voll.api.medico.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.medico.domain.dto.DadosAtualizaMedico;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/medico")
+@SecurityRequirement(name = "bearer-key")
 public class MedicoController {
 
     @Autowired
