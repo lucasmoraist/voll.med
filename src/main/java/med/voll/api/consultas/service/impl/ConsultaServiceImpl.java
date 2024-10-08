@@ -2,6 +2,7 @@ package med.voll.api.consultas.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import med.voll.api.consultas.domain.dto.DadosAgendamentoConsulta;
+import med.voll.api.consultas.domain.dto.DadosDetalhamentoConsulta;
 import med.voll.api.consultas.domain.entity.Consulta;
 import med.voll.api.consultas.repository.ConsultaRepository;
 import med.voll.api.consultas.service.ConsultaService;
@@ -24,7 +25,7 @@ public class ConsultaServiceImpl implements ConsultaService {
     private final List<ValidadorAgendamentoDeConsulta> validadores;
 
     @Override
-    public void agendarConsulta(DadosAgendamentoConsulta dados) {
+    public DadosDetalhamentoConsulta agendarConsulta(DadosAgendamentoConsulta dados) {
 
         this.validadores.forEach(v -> v.validar(dados));
 
@@ -40,6 +41,8 @@ public class ConsultaServiceImpl implements ConsultaService {
                 .build();
 
         this.consultaRepository.save(consulta);
+
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
