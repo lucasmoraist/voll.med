@@ -1,8 +1,10 @@
 package med.voll.api.user.controller;
 
 import jakarta.validation.Valid;
+import med.voll.api.infra.security.TokenService;
+import med.voll.api.infra.security.DadosTokenJWT;
 import med.voll.api.user.domain.dto.LoginDTO;
-import med.voll.api.user.repository.UsuarioRepository;
+import med.voll.api.user.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,14 +21,16 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UsuarioRepository repository;
+    private TokenService service;
 
     @PostMapping("login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginDTO dto) {
-        var token = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
-        var auth = this.authenticationManager.authenticate(token);
+    public ResponseEntity<DadosTokenJWT> login(@Valid @RequestBody LoginDTO dto) {
+        var authToken = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+        var auth = this.authenticationManager.authenticate(authToken);
 
-        return ResponseEntity.ok().build();
+        var tokenJWT = this.service.gerarToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok().body(new DadosTokenJWT(tokenJWT));
     }
 
 }
