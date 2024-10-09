@@ -54,7 +54,7 @@ class MedicoRepositoryTest {
 
     @Test
     @DisplayName("Deveria devolver medico quando ele estiver disponivel na data")
-    void escolherMedicoAleatorioLivreNaDataCenario2() {
+    void case02() {
         var proximaSegundaAs10 = LocalDate.now()
                 .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
                 .atTime(10, 0);
